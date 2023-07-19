@@ -1,7 +1,11 @@
 {
   "name": "@bank/gateway",
   "version": "1.0.0",
-  "description": "",
+  "description": "Gateway Application",
+  "author": {
+    "name": "Author Authoroglu",
+    "email": "author@gateway.com"
+  },
   "private": true,
   "scripts": {
     "build": "nest build",

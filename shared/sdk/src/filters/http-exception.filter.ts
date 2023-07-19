@@ -1,16 +1,23 @@
-import { Catch, ExceptionFilter, HttpException, HttpStatus } from '@nestjs/common';
+import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus } from '@nestjs/common';
+import { FastifyReply } from 'fastify';
+import { BankException } from '../exceptions';
 
 @Catch(HttpException)
 export class HttpExceptionFilter implements ExceptionFilter {
-  catch(exception: HttpException) {
-    const status: HttpStatus = exception.getStatus();
-    const error: string | object | any = exception.getResponse();
-    const timestamp: string = new Date().toISOString();
+  catch(exception: BankException, host: ArgumentsHost) {
+    const ctx = host.switchToHttp();
+    const response = ctx.getResponse<FastifyReply>();
+    const statusCode = exception.getStatus() || HttpStatus.INTERNAL_SERVER_ERROR;
+    const code = exception?.getErrorCode();
+    const message = exception?.getErrorMessage();
+    const timestamp = new Date().getTime();
 
-    if (typeof error === 'string') {
-      return { status, timestamp, error: [error] };
-    }
-
-    return { status, timestamp, error: error.message };
+    response.status(statusCode).send({
+      code,
+      message,
+      statusCode,
+      timestamp,
+      stack: exception.stack,
+    });
   }
 }

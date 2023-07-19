@@ -15,7 +15,7 @@ async function bootstrap(): Promise<void> {
   await app.listen(null, () => {
     logger.log(`[NOD] ${process.version}`);
     logger.log(`[ENV] ${process.env.NODE_ENV}`);
-    logger.log(`[DKR] ${process.env.IS_DOCKER ? true : false}`);
+    logger.log(`[DKR] ${!!process.env.IS_DOCKER}`);
     logger.log(`[PGS] ${config.get('PSQL_DB_NAME')}`);
     logger.log(`[KFK] ${config.get('KAFKA_URL')}`);
     logger.log(`[URL] ${config.get('GRPC_URL')}`);

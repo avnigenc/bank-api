@@ -16,7 +16,7 @@ export class OpenAccountHandler implements ICommandHandler<OpenAccountCommand> {
     console.log('OpenAccountHandler/execute');
     const aggregate: OpenAccountAggregate = new OpenAccountAggregate();
 
-    this.publisher.mergeObjectContext(aggregate);
+    this.publisher.mergeObjectContext(aggregate as any);
     aggregate.openAccount(command);
 
     await this.eventSourcingHandler.save(aggregate);

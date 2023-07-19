@@ -1,16 +1,17 @@
 import {
+  AccountIdDto,
   AccountQueryServiceClient,
   ACCOUNT_QUERY_SERVICE_NAME,
-  FindAccountRequest,
   FindAccountResponse,
-  FindAllAccountsRequest,
   FindAllAccountsResponse,
 } from '@bank/sdk';
-import { Body, Controller, Inject, OnModuleInit, Post } from '@nestjs/common';
+import { Controller, Get, Inject, OnModuleInit, Param } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
+import { ApiTags } from '@nestjs/swagger';
 import { Observable } from 'rxjs';
 
-@Controller('account/query')
+@Controller('accounts')
+@ApiTags('Accounts')
 export class QueryController implements OnModuleInit {
   @Inject(ACCOUNT_QUERY_SERVICE_NAME)
   private readonly client: ClientGrpc;
@@ -21,13 +22,13 @@ export class QueryController implements OnModuleInit {
     this.service = this.client.getService<AccountQueryServiceClient>(ACCOUNT_QUERY_SERVICE_NAME);
   }
 
-  @Post('find-one')
-  private findAccount(@Body() payload: FindAccountRequest): Observable<FindAccountResponse> {
-    return this.service.findAccount(payload);
+  @Get(':accountId')
+  private findAccount(@Param() params: AccountIdDto): Observable<FindAccountResponse> {
+    return this.service.findAccount({ id: params.accountId });
   }
 
-  @Post('find')
-  private findAllAccounts(@Body() payload: FindAllAccountsRequest): Observable<FindAllAccountsResponse> {
-    return this.service.findAllAccounts(payload);
+  @Get()
+  private findAllAccounts(@Param() params: { page: number }): Observable<FindAllAccountsResponse> {
+    return this.service.findAllAccounts({ page: params.page });
   }
 }

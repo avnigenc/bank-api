@@ -1,5 +1,5 @@
 import { Column, CreateDateColumn, Entity, PrimaryColumn, UpdateDateColumn } from 'typeorm';
-import { AccountOpenedEvent } from '../../../account/open-account';
+import { AccountOpenedEvent } from '../../open-account';
 import { AccountType } from '../enums';
 
 @Entity()

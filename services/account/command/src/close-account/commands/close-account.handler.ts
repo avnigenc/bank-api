@@ -16,7 +16,7 @@ export class CloseAccountHandler implements ICommandHandler<CloseAccountCommand>
     console.log('CloseAccountHandler/execute');
     const aggregate: CloseAccountAggregate = await this.eventSourcingHandler.getById(CloseAccountAggregate, command.id);
 
-    this.publisher.mergeObjectContext(aggregate);
+    this.publisher.mergeObjectContext(aggregate as any);
     aggregate.closeAccount(command);
 
     await this.eventSourcingHandler.save(aggregate);

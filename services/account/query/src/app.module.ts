@@ -6,6 +6,8 @@ import { TypeOrmConfigService } from './common/services/typeorm.service';
 import { ConsumerModule } from './consumer/consumer.module';
 import { LookupModule } from './lookup/lookup.module';
 
+console.log(process.env.IS_DOCKER);
+
 @Module({
   imports: [
     ConfigModule.forRoot({

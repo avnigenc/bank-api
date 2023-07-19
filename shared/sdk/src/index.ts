@@ -1,4 +1,6 @@
 export * from './constants';
+export * from './dto';
+export * from './exceptions';
 export * from './filters';
 export * from './pb/account-command.pb';
 export * from './pb/account-query.pb';
